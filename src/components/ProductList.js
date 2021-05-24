@@ -19,7 +19,7 @@ export default function ProductList() {
       })
     })
   }, [])
-  useEffect(async () => {
+  useEffect(() => {
     const fetchData = async () => {
       const result = await axios.get(`https://www.googleapis.com/books/v1/volumes?q=subject:${subject}&startIndex=${index}&maxResults=6`)
       return setBooks(result.data.items)
