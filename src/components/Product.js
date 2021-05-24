@@ -1,20 +1,20 @@
 import React, { useState } from 'react'
 import {Link} from 'react-router-dom';
+import {ProductConsumer} from '../context'
 
-
-export default function Product() {
-  const a = {
-    id:1,
-    title:'Crazy rich asians',
-    img: './product-1.png',
-    author: 'Kevin Kwan',
-    price: 24.12,
-    info: 'the outrageously funny debut novel about three super-rich, pedigreed Chinese families and the gossip.',
-    inCart:false,
-    count: 0,
-    total: 0
+export default function Product(props) {
+  const {id, volumeInfo, saleInfo} = props.product;
+const a = {
+  title:volumeInfo.title,
+  img: volumeInfo.imageLinks?.smallThumbnail != undefined ? volumeInfo.imageLinks.smallThumbnail : 'http://books.google.com/books/content?id=-RGhYgEACAAJ&printsec=frontcover&img=1&zoom=5&source=gbs_api',
+  author: volumeInfo.authors,
+  price: saleInfo.listPrice?.amount !== undefined ? saleInfo.listPrice.amount : Math.floor(Math.random() * 100),
+  info: volumeInfo.description,
+  inCart:false,
+  count: 0,
+  total: 0
 }
-const {id,title,author,img,price,inCart,info} = a;
+const {title,img,author,price,info,inCart} = a
   return (
     <div>
       <div className='product_container'>
@@ -24,9 +24,12 @@ const {id,title,author,img,price,inCart,info} = a;
                     <div className='info_cont'>
                     <div className='allInfo'>
                             <p className='author'>{author}</p>
-                            <h2 className='nameofbook'>{title}</h2>
-                            <p className='info'>{info}</p>
-                            <h2 className='price'><span>$</span>{price}</h2>
+                            <h2 className='nameofbook'>{title.split(' ').slice(0,3).join(' ') + ' ...'}</h2>
+                            <p className='info'>{info ? info.split(' ').slice(0,10).join(' ') + '...' : ''}</p>
+                            <div className='price_cont'>
+                            <h2 className='price'><span>$</span>{`${price}`}</h2>
+                            <h2 className='price'><span>$</span>{`${((price * 0.3) + price)}`}</h2>
+                            </div>
                     </div>
                     <div className='car-buttons'>
                          <button className='cart-btn' disabled={inCart? true: false}>
@@ -36,9 +39,18 @@ const {id,title,author,img,price,inCart,info} = a;
                                  <p>Add to Cart</p>
                              )}
                         </button>
-                        <Link to='/details' className='link cart-details-btn'>
-                            <p>View</p>
-                        </Link>
+                              <ProductConsumer>
+                                {value => {
+                                  return (
+                                    <Link to='/details' className='link cart-details-btn' onClick={()=>{
+                                      value.handleDetail(props.product)
+                                    }}>
+                                      <p>View</p>
+                                    </Link>
+                                  )
+                                }}
+                              
+                              </ProductConsumer>
                     </div>
                     </div>
                 </div>

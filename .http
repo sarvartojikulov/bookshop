@@ -1,0 +1,6 @@
+GET https://www.googleapis.com/books/v1/volumes?q=subject:fiction&startIndex=6&maxResults=6
+
+
+#Get a book with ID
+
+#GET https://www.googleapis.com/books/v1/volumes/whHWDwAAQBAJ
