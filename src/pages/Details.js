@@ -9,7 +9,7 @@ export default function Details() {
           const {id, volumeInfo, saleInfo} = value.detailProduct;
           const a = {
             title:volumeInfo.title,
-            img: volumeInfo.imageLinks?.smallThumbnail != undefined ? volumeInfo.imageLinks.smallThumbnail : 'http://books.google.com/books/content?id=-RGhYgEACAAJ&printsec=frontcover&img=1&zoom=5&source=gbs_api',
+            img: volumeInfo.imageLinks?.smallThumbnail !== undefined ? volumeInfo.imageLinks.smallThumbnail : 'http://books.google.com/books/content?id=-RGhYgEACAAJ&printsec=frontcover&img=1&zoom=5&source=gbs_api',
             author: volumeInfo.authors,
             price: saleInfo.listPrice?.amount !== undefined ? saleInfo.listPrice.amount : Math.floor(Math.random() * 100),
             info: volumeInfo.description,
